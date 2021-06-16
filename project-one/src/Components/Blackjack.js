@@ -186,12 +186,16 @@ if(playerScore > 21){
 
 return (
   <div> 
-    <button className='' onClick={() => getHand()} >Start Game</button>
-      <div>
-        <CardCounter hand={playerHand}/> 
+    <div className="start-button">
+      <button onClick={() => getHand()} >Start Game</button>
+    </div>
+ 
+          <div className="dealerhand">
+            <CardCounter hand={dealerHand} isDealer={true} />
+          </div> 
           <div>
             {gameStarted ? 
-              <div>
+              <div className="buttons">
                 <button onClick = {() => getHit() } >Hit</button>
                 <button onClick = {() => {
                   setStay(true)
@@ -201,15 +205,16 @@ return (
             : <></>}
           </div>
 
-          <div>
-          <p className="dealer"></p>
-            <CardCounter hand={dealerHand} isDealer={true} />
-          </div> 
-          </div>
-          <div>
+          <div className="victory-banner">
             {victoryBanner()}
-          </div> 
-    </div>
+          </div>
+
+      <div className="playerhand">
+        <CardCounter hand={playerHand} />
+      </div>
+ 
+  </div>
+
   )
 }
 

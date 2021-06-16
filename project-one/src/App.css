@@ -1,5 +1,14 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+body {
+  /* background: linear-gradient(to bottom, green, rgba(0,0,255,0.5)) */
+  background-image: url("https://media.istockphoto.com/photos/green-felt-texture-for-poker-an-casino-theme-seamless-square-tile-picture-id1161786875?k=6&m=1161786875&s=170667a&w=0&h=yPsfoOY8qIZxqPAsnCc6Qevt1eXKORdMDlEAP4nQ1UQ=");
+  background-repeat: repeat;
+  background-size: auto;
+}
 
+.App {
+ 
 }
 
 .App-logo {
@@ -27,4 +36,104 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.nav {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0; 
+  background: rgb(17, 152, 34);
+  font-family: 'Rancho';
+  font-size: 75px;
+}
+
+.nav a {
+  text-decoration: none;
+  display: block;
+  padding: 0.2em;
+  color: white;
+}
+
+.nav a:hover {
+  background: #2a7221;
+}
+
+@media all and (max-width: 800px) {
+  .nav {
+    justify-content: space-around;
+  }
+}
+@media all and (max-width: 600px) {
+  .nav {
+    flex-flow: column wrap;
+    padding: 0;
+  }
+}
+
+.start-button button{
+    background-color: darkgoldenrod;
+    padding: 10px 30px;
+    font-weight: 500;
+    font-size: 50px;
+    font-family: impact;
+  }
+
+.start-button button:hover {
+    background-color: yellow;
+    border: solid, 2px, rgba(255, 255, 0, 0.37);
+  }
+
+  .navigation a { 
+    text-align: center; 
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255,0.3); 
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+  }
+
+
+.playerhand{
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-evenly;
+}
+
+.dealerhand{
+  display: flex;
+  flex-direction: row;
+  align-items: right;
+  justify-content: space-evenly;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+.buttons button {
+  font-family: cursive;
+  padding: 10px 30px;
+  font-weight: 500;
+  font-size: 50px;
+}
+
+.victory-banner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  /* background-color: white; */
+  /* width: 200px;
+  height: 200px; */
+  min-width: 200px;
+  text-align: center;
+  /* justify-self: center; */
+  align-self: center;
+}
+
+.victory-banner p {
+  font-size: 50px;
+  font-weight: 900;
+  grid-column: 2;
+  padding: 50px;
+  background-color: white;
 }

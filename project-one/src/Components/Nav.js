@@ -5,8 +5,10 @@ function Nav() {
   
 
   return(
-      <nav>
-        <Link to="/blackjack">Blackjack</Link>
+      <nav className="nav">
+        <a>
+        <Link className="link" to="/blackjack">Blackjack</Link>
+        </a>
       </nav>
 
   )
