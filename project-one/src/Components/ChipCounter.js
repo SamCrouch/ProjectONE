@@ -76,20 +76,13 @@ function ChipCounter(props) {
   }
 
   return (
-    // <div>
-    //   <button onClick={() => (placeBet(5))}>5</button>
-    //   <button onClick={() => (placeBet(25))}>25</button>
-    //   <button onClick={() => (placeBet(50))}>50</button>
     <div className="chips">
       <div onClick={() => { placeBet(5) }} className="holder h1">5</div>
       <div onClick={() => { placeBet(25) }} className="holder h2">25</div>
       <div onClick={() => { placeBet(50) }} className="holder h3">50</div>
       <div className="my-chip"></div>
-
       <div>Chip Total: {chips}</div>
     </div>
-
-
   )
 }
 

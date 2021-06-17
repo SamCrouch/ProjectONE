@@ -3,8 +3,6 @@ import DeckContext from '../deckContext'
 import CardCounter from './CardCounter'
 import ChipCounter from './ChipCounter'
 
-
-
 function Blackjack() {
   const { deckId, cardValues } = useContext(DeckContext)
   const [playerHand, setPlayerHand] = useState([])
@@ -31,10 +29,6 @@ function Blackjack() {
     const deckjson = await deck.json()
     setLocalDeck(deckjson.cards.map(card => card.code))
   }
-
-
-
-
 
   function getHit() {
 
@@ -157,7 +151,6 @@ function Blackjack() {
 
 
 
-
   return (
     <div className="App">
       <div className="start-button">
@@ -173,7 +166,6 @@ function Blackjack() {
         {gameStarted ?
           <div className="buttons">
             <button onClick={() => { getHit() }}>Hit</button>
-
             <button onClick={() => {
               setStay(true)
               setGameStarted(false)
@@ -184,16 +176,12 @@ function Blackjack() {
             {victoryBanner()}
           </div>}
       </div>
-
-
-
       <div className="playerhand">
         <CardCounter hand={playerHand} />
       </div>
       <div>
         <ChipCounter isStay={stay} started={gameStarted} player={playerScore} trueEnd={trueEnd} dealer={dealerScore} />
       </div>
-
     </div>
 
   )
