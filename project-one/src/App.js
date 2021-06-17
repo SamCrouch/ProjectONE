@@ -43,7 +43,7 @@ function App() {
       deckId,
       cardValues
     }}>
-    <div className="App">
+    <div>
       <Router>
       <Nav />
           {/* <>{deckId}</> */}
