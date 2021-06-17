@@ -16,6 +16,7 @@ button {
   flex-direction: column;
   justify-content: center;
   height: 90vh;
+  padding: 10px;
 }
 
 .App-logo {
@@ -148,6 +149,8 @@ button {
   text-align: center;
   /* justify-self: center; */
   align-self: center;
+  z-index: 1;
+  position: relative;
 }
 
 .victory-banner p {
@@ -281,18 +284,7 @@ button {
   background: #800000;
   color: #6C0000;
 }
-.blue {
-  background-image: linear-gradient(0deg, transparent 0, transparent 67.5px, #fff 67.5px, #fff 83.5px, transparent 83.5px, transparent 151px), linear-gradient(60deg, transparent 0, transparent 97.4304px, #fff 97.4304px, #fff 113.4304px, transparent 113.4304px, transparent 151px), linear-gradient(120deg, #000099 0, #000099 97.4304px, #fff 97.4304px, #fff 113.4304px, #000099 113.4304px, #000099 151px);
-}
-.blue:before {
-  border: 8px solid #000099;
-  background-image: linear-gradient(0deg, transparent 0, transparent 69.5px, #EBEBEB 69.5px, #EBEBEB 81.5px, transparent 81.5px, transparent 151px), linear-gradient(30deg, transparent 0, transparent 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, transparent 110.7104px, transparent 151px), linear-gradient(60deg, transparent 0, transparent 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, transparent 110.7104px, transparent 151px), linear-gradient(90deg, transparent 0, transparent 69.5px, #EBEBEB 69.5px, #EBEBEB 81.5px, transparent 81.5px, transparent 151px), linear-gradient(120deg, transparent 0, transparent 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, transparent 110.7104px, transparent 151px), linear-gradient(150deg, #00016C 0, #00016C 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, #00016C 110.7104px, #00016C 151px);
-}
-.blue:after {
-  content: "5";
-  background: #000099;
-  color: #00016C;
-}
+
 .green {
   background-image: linear-gradient(0deg, transparent 0, transparent 67.5px, #fff 67.5px, #fff 83.5px, transparent 83.5px, transparent 151px), linear-gradient(60deg, transparent 0, transparent 97.4304px, #fff 97.4304px, #fff 113.4304px, transparent 113.4304px, transparent 151px), linear-gradient(120deg, #008000 0, #008000 97.4304px, #fff 97.4304px, #fff 113.4304px, #008000 113.4304px, #008000 151px);
 }
@@ -305,23 +297,49 @@ button {
   background: #008000;
   color: #016C00;
 }
-.black {
-  background-image: linear-gradient(0deg, transparent 0, transparent 67.5px, #fff 67.5px, #fff 83.5px, transparent 83.5px, transparent 151px), linear-gradient(60deg, transparent 0, transparent 97.4304px, #fff 97.4304px, #fff 113.4304px, transparent 113.4304px, transparent 151px), linear-gradient(120deg, #222222 0, #222222 97.4304px, #fff 97.4304px, #fff 113.4304px, #222222 113.4304px, #222222 151px);
-}
-.black:before {
-  border: 8px solid #222222;
-  background-image: linear-gradient(0deg, transparent 0, transparent 69.5px, #EBEBEB 69.5px, #EBEBEB 81.5px, transparent 81.5px, transparent 151px), linear-gradient(30deg, transparent 0, transparent 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, transparent 110.7104px, transparent 151px), linear-gradient(60deg, transparent 0, transparent 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, transparent 110.7104px, transparent 151px), linear-gradient(90deg, transparent 0, transparent 69.5px, #EBEBEB 69.5px, #EBEBEB 81.5px, transparent 81.5px, transparent 151px), linear-gradient(120deg, transparent 0, transparent 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, transparent 110.7104px, transparent 151px), linear-gradient(150deg, #000000 0, #000000 98.7104px, #EBEBEB 98.7104px, #EBEBEB 110.7104px, #000000 110.7104px, #000000 151px);
-}
-.black:after {
-  content: "100";
-  background: #222222;
-  color: #000000;
-}
+
 
 .chips{
-margin: 0 50px;
-  padding: 20px 0;
+  display: flex;
+  flex-direction: row;
+  margin: 0 50px;
+  padding: 10px 10px 10px 10px;
   text-align: center;
   background-color: #014D43;
   box-shadow: 0 0 0 5px #282828 inset, 0 0 0 10px #969696 inset, 0 0 6px rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 30px;
+  align-items: center;
+}
+
+.holder {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 1%;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+.holder:before {
+  content: "";
+  display: inline-block;
+  padding-top: 100%;
+}
+.h1 {
+  display:flex;
+  background: blue;
+  width: 100px;
+  justify-content: center;
+}
+.h2 {
+  display:flex;
+  background: red;
+  width: 100px;
+  justify-content: center;
+}
+.h3 {
+  display: flex;
+  background: green;
+  width: 100px;
+  justify-content: center;
 }

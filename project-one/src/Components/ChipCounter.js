@@ -1,43 +1,78 @@
-import {useState, useEffect, useReducer} from 'react'
+import { useState, useEffect, useReducer } from 'react'
 function ChipCounter(props) {
   const [chips, setChips] = useState(1000);
-  const initialWinner = {winner: `nobody`}
+  const [pot, setPot] = useState(0);
+  const initialWinner = { winner: `nobody` }
   const [winner, dispatch] = useReducer(winnerReducer, initialWinner);
 
 
   function winnerReducer(state, action) {
     switch (action.type) {
       case 'player':
-        return {winner: 'player'};
+        return { winner: 'player' };
       case 'dealer':
-        return {winner: 'dealer'};
+        return { winner: 'dealer' };
       case 'tie':
-        return {winner: `tie`};
+        return { winner: `tie` };
+      case 'nobody':
+        return { winner: 'nobody' }
       default:
         throw new Error();
+    }
+  }
+
+  useEffect(() => {
+
+  }, [props.player, props.dealer])
+
+  useEffect(() => {
+    victoryCheck()
+  }, [props.trueEnd])
+
+  useEffect(() => {
+    payout()
+  }, [winner])
+
+  function victoryCheck() {
+
+    if (props.player > 21) {
+      dispatch({ type: 'dealer' })
+    } else if ((props.player > props.dealer && props.player <= 21) || props.dealer > 21) {
+      console.log(props.dealer)
+      dispatch({ type: 'player' })
+    } else if ((props.dealer > props.player && props.dealer <= 21)) {
+      dispatch({ type: 'dealer' })
+    } else if (props.dealer === props.player && props.player <= 21 && props.player !== 0) {
+      dispatch({ type: 'tie' })
+    }
+  }
+
+  function payout() {
+    if (props.player > 21) {
+      setPot(0)
+    } else if ((props.player > props.dealer && props.player <= 21) || props.dealer > 21) {
+      if (props.trueEnd) {
+        setChips(chips + (2 * pot))
+        setPot(0)
+      }
+    } else if ((props.dealer > props.player && props.dealer <= 21)) {
+      if (props.trueEnd) {
+        setPot(0)
+      }
+    } else if (props.dealer === props.player && props.player <= 21 && props.player !== 0) {
+      if (props.trueEnd) {
+        setChips(chips + pot)
+        setPot(0)
       }
     }
-
-    useEffect(() => {
-      victoryCheck()
-    }, [props.player, props.dealer])
-
-    function victoryCheck() {
-
-      if(props.player > 21) {
-        dispatch({type: 'dealer'})
-      } else if ( (props.player > props.dealer && props.player <= 21) || props.dealer > 21) {
-        console.log(props.dealer)
-        dispatch({type: 'player'})
-        } else if ((props.dealer > props.player && props.dealer <= 21)) {
-          dispatch({type: 'dealer'})
-        } else if ( props.dealer === props.player && props.player <= 21 && props.player !== 0) {
-          dispatch({type: 'tie'})
-        }
-    }
+  }
 
   function placeBet(bet) {
-    console.log(`you bet ${bet} chips`)
+    if (chips - bet >= 0 && props.trueEnd) {
+      console.log(`you bet ${bet} chips`)
+      setChips(chips - bet);
+      setPot(pot + bet);
+    }
   }
 
   return (
@@ -45,18 +80,16 @@ function ChipCounter(props) {
     //   <button onClick={() => (placeBet(5))}>5</button>
     //   <button onClick={() => (placeBet(25))}>25</button>
     //   <button onClick={() => (placeBet(50))}>50</button>
-    <div>
-    {!props.started ? 
-      <div>
-      <div onClick={() => {placeBet(5)}} className="pokerchip white"></div>
-      <div onClick={() => {placeBet(25)}} className="pokerchip green"></div>
-      <div onClick={() => {placeBet(50)}} className="pokerchip red"></div>
-      
-      <div className="chips">Chip Total: {chips}</div>
-      
-    </div> : <></>
-    }
+    <div className="chips">
+      <div onClick={() => { placeBet(5) }} className="holder h1">5</div>
+      <div onClick={() => { placeBet(25) }} className="holder h2">25</div>
+      <div onClick={() => { placeBet(50) }} className="holder h3">50</div>
+      <div className="my-chip"></div>
+
+      <div>Chip Total: {chips}</div>
     </div>
+
+
   )
 }
 
