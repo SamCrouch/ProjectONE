@@ -6,6 +6,7 @@ This component makes an API call to fetch a new deck ID. This ID and the object 
 
 ## Blackjack
 This component handles the game of Blackjack, calling methods required to execute the logic and rendering of the game. It returns the `Start Game` `Stand` and `Hit` buttons and the `victoryBanner`. It calls the `CardCounter` and `ChipCounter` components to render the hands and chip count for the game.
+
 ### getHand
 This async method sets the `gameStarted` state to true to signal the start of a new hand, while also resetting the `stay` state to false. Then it tells the API to shuffle the deck and draws 4 cards. These cards are then dealt into `playerHand` and `dealerHand`. Then it draws the remaining 48 cards from the API to handle it in `localDeck` for the remainder of the hand. Cards are handled here and throughout by their 2-character ID code ex: 2H = two of hearts. Triggered when `Start Game` button is pressed.
 
@@ -24,11 +25,9 @@ This method recieves a hand and maps the card ID to a number value. This value i
 ### victoryBanner
 This method handles the conditional HTML that displays the outcome of the hand. It is displayed once `gameStarted` is false.
 
-
 ## CardCounter
 
 This component returns the rendered images of the player and dealer hand by retrieving the card .png from the API. Upon first deal, the dealer's hand is shown with one card face down. Then upon player stand the dealer's hand is fully revealed. The player and dealer hand card values are passed into this component as props.
-
 
 ## ChipCounter
 

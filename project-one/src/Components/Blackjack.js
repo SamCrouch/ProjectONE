@@ -10,7 +10,7 @@ function Blackjack() {
   const [dealerHand, setDealerHand] = useState([])
   const [dealerScore, setDealerScore] = useState(0)
   const [localDeck, setLocalDeck] = useState([])
-  const [gameStarted, setGameStarted] = useState(false)
+  const [playerTurn, setPlayerTurn] = useState(false)
   const [stay, setStay] = useState(false)
   const [trueEnd, setTrueEnd] = useState(true)
 
@@ -29,18 +29,14 @@ function Blackjack() {
   }, [playerHand])
 
   useEffect(() => {
-
-  }, [stay])
-
-  useEffect(() => {
     if (playerScore > 21) {
-      setGameStarted(false)
+      setPlayerTurn(false)
       setTrueEnd(true)
     }
   }, [playerScore])
 
   async function getHand() {
-    setGameStarted(true)
+    setPlayerTurn(true)
     setStay(false)
     await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`)
     const response = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
@@ -71,6 +67,7 @@ function Blackjack() {
   }
 
   function reduce(arr = [1, 1]) {
+    // workaround for .reduce not working properly with state change
     let result = 0
     for (let i = 0; i < arr.length; i++) {
       if (arr[i] === 11) {
@@ -86,16 +83,13 @@ function Blackjack() {
     return result
   }
 
-
   function addCards(hand) {
     const count = hand.map((card) => cardValues[card[0]])
     const sortedCount = count.sort((a, b) => a - b)
     // sorted to calculate aces
-
     const result = reduce(sortedCount)
     return result
   }
-
 
   function victoryBanner() {
     if (playerScore > 21) {
@@ -140,15 +134,15 @@ function Blackjack() {
         }} >Start Game</button>
       </div>
       <div className="dealerhand">
-        <CardCounter hand={dealerHand} stayCheck={stay} isStarted={gameStarted} isDealer={true} />
+        <CardCounter hand={dealerHand} stayCheck={stay} isStarted={playerTurn} isDealer={true} />
       </div>
       <div>
-        {gameStarted ?
+        {playerTurn ?
           <div className="buttons">
             <button onClick={() => { getHit() }}>Hit</button>
             <button onClick={() => {
               setStay(true)
-              setGameStarted(false)
+              setPlayerTurn(false)
               getDealerHit()
             }}>Stand</button>
           </div>
@@ -160,7 +154,7 @@ function Blackjack() {
         <CardCounter hand={playerHand} />
       </div>
       <div>
-        <ChipCounter isStay={stay} started={gameStarted} player={playerScore} trueEnd={trueEnd} dealer={dealerScore} />
+        <ChipCounter isStay={stay} started={playerTurn} player={playerScore} trueEnd={trueEnd} dealer={dealerScore} />
       </div>
     </div>
 

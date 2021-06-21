@@ -22,7 +22,7 @@ function ChipCounter(props) {
   }
 
   useEffect(() => {
-
+  // forces re-render when player/dealer scores change
   }, [props.player, props.dealer])
 
   useEffect(() => {
