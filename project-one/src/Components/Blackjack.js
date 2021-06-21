@@ -14,30 +14,8 @@ function Blackjack() {
   const [stay, setStay] = useState(false)
   const [trueEnd, setTrueEnd] = useState(true)
 
-  async function getHand() {
-    setGameStarted(true)
-    setStay(false)
-    await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`)
-    const response = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
-    const json = await response.json()
-    setDealerHand(json.cards.map(card => card.code).filter((card, ind) => ind % 2 === 0))
-    setPlayerHand(json.cards.map(card => card.code).filter((card, ind) => ind % 2 === 1))
-
-    // addPlayerCards(playerHand)
-
-    const deck = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=48`)
-    const deckjson = await deck.json()
-    setLocalDeck(deckjson.cards.map(card => card.code))
-  }
-
-  function getHit() {
-
-    if (playerScore < 21 && !stay) {
-      setPlayerHand([...playerHand, localDeck.shift()])
-    }
-  }
   useEffect(() => {
-    addDealerCards(dealerHand)
+    setDealerScore(addCards(dealerHand))
   }, [dealerHand])
 
   useEffect(() => {
@@ -47,7 +25,7 @@ function Blackjack() {
   }, [dealerScore])
 
   useEffect(() => {
-    addPlayerCards(playerHand)
+    setPlayerScore(addCards(playerHand))
   }, [playerHand])
 
   useEffect(() => {
@@ -61,13 +39,30 @@ function Blackjack() {
     }
   }, [playerScore])
 
+  async function getHand() {
+    setGameStarted(true)
+    setStay(false)
+    await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`)
+    const response = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
+    const json = await response.json()
+    setDealerHand(json.cards.map(card => card.code).filter((card, ind) => ind % 2 === 0))
+    setPlayerHand(json.cards.map(card => card.code).filter((card, ind) => ind % 2 === 1))
+
+    const deck = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=48`)
+    const deckjson = await deck.json()
+    setLocalDeck(deckjson.cards.map(card => card.code))
+  }
+
+  function getHit() {
+
+    if (playerScore < 21 && !stay) {
+      setPlayerHand([...playerHand, localDeck.shift()])
+    }
+  }
 
   function getDealerHit() {
 
-    let tempScore = dealerScore
-
-
-    if (dealerScore < 17 && playerScore < 22) {
+    if (dealerScore < 17) {
       setDealerHand([...dealerHand, localDeck.shift()])
 
     } else {
@@ -75,77 +70,62 @@ function Blackjack() {
     }
   }
 
+  function reduce(arr = [1, 1]) {
+    let result = 0
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === 11) {
+        if ((result + arr[i]) > 21) {
+          result += 1
+        } else {
+          result += arr[i]
+        }
+      } else {
+        result += arr[i]
+      }
+    }
+    return result
+  }
 
-  function addPlayerCards(hand) {
+
+  function addCards(hand) {
     const count = hand.map((card) => cardValues[card[0]])
     const sortedCount = count.sort((a, b) => a - b)
-    // reduce((accum, card) => accum + card)
-
-    function reduce(arr = [1, 1]) {
-      let result = 0
-
-      for (let i = 0; i < arr.length; i++) {
-
-        if (arr[i] === 11) {
-          if ((result + arr[i]) > 21) {
-            result += 1
-          }
-          else {
-            result += arr[i]
-          }
-        }
-        else {
-          result += arr[i]
-        }
-      }
-      return result
-    }
+    // sorted to calculate aces
 
     const result = reduce(sortedCount)
-    setPlayerScore(result);
+    return result
   }
 
-  function addDealerCards(hand) {
-    const count = hand.map((card) => cardValues[card[0]])
-    // reduce((accum, card) => accum + card)
-
-    function reduce(arr = [1, 1]) {
-      let result = 0
-
-      for (let i = 0; i < arr.length; i++) {
-
-        if (arr[i] === 11) {
-          if ((result + arr[i]) > 21) {
-            result += 1
-          }
-          else {
-            result += arr[i]
-          }
-        }
-        else {
-          result += arr[i]
-        }
-      }
-      return result
-    }
-
-    const result = reduce(count)
-
-    setDealerScore(result);
-  }
 
   function victoryBanner() {
     if (playerScore > 21) {
 
-      return (<p>BUST 🤮</p>)
-    } else if (stay && (playerScore > dealerScore && playerScore <= 21) || dealerScore > 21) {
-      return (<p>WIN 🤑</p>)
-    } else if (stay && (dealerScore > playerScore && dealerScore <= 21)) {
-      return (<p>LOSE 😥</p>)
-    } else if (stay && dealerScore === playerScore && playerScore <= 21 && playerScore !== 0) {
-      return (<p>TIE 🤷‍♂️</p>)
-    } else {
-      return (<></>)
+      return (
+        <div>
+          <p className="vic-message">BUST 🤮</p>
+          <p className="bet-reminder">Place next bet!</p>
+        </div>)
+    } else if (trueEnd && (playerScore > dealerScore && playerScore <= 21) || dealerScore > 21) {
+      return (
+        <div>
+          <p className="vic-message">WIN 🤑</p>
+          <p className="bet-reminder">Place next bet!</p>
+        </div>)
+    } else if (trueEnd && (dealerScore > playerScore && dealerScore <= 21)) {
+      return (
+        <div>
+          <p className="vic-message">LOSE 😥</p>
+          <p className="bet-reminder">Place next bet!</p>
+        </div>)
+    } else if (trueEnd && dealerScore === playerScore && playerScore <= 21 && playerScore !== 0) {
+      return (
+        <div>
+          <p className="vic-message">TIE 🤷‍♂️</p>
+          <p className="bet-reminder">Place next bet!</p>
+        </div>
+      )
+    } else if (trueEnd) {
+      return (<p className='vic-message'>Place your bets!</p>)
     }
   }
 

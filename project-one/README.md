@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# Space Casino (working title)
+This is the best intergalactic Gambling Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## App
+    This component makes an API call to fetch a new deck ID. This ID and the object `cardValues` is pushed down through `DeckContext` for use in child components. 
 
-## Available Scripts
+## Blackjack
+    This component handles the game of Blackjack, calling methods required to execute the logic and rendering of the game. It returns the `Start Game` `Stand` and `Hit` buttons and the `victoryBanner`. It calls the `CardCounter` and `ChipCounter` components to render the hands and chip count for the game.
+### getHand
+    This async method sets the `gameStarted` state to true to signal the start of a new hand, while also resetting the `stay` state to false. Then it tells the API to shuffle the deck and draws 4 cards. These cards are then dealt into `playerHand` and `dealerHand`. Then it draws the remaining 48 cards from the API to handle it in `localDeck` for the remainder of the hand. Cards are handled here and throughout by their 2-character ID code ex: 2H = two of hearts. Triggered when `Start Game` button is pressed.
 
-In the project directory, you can run:
+### getHit
+    This method draws another card from `localDeck` and adds it to `playerHand`. If `playerScore` is greater than 21 or a player has already clicked the `stand` button, a player is unable to draw another card. Triggered when a player clicks the `Hit` button.
 
-### `npm start`
+### getDealerHit
+    This method draws another card from `LocalDeck` and adds it to `dealerHand`. `getDealerHit` will draw cards from `localDeck` until `dealerScore` is greater than 16. Upon completion of this logic the `trueEnd` state is set to true. Triggered when the `Stand` button is pressed.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### reduce
+    This method counts the values of the cards in a hand. It also handles the logic for determining if an ace is scored as  11 or 1. This method is called within `addCards` and takes a sorted array of numbers as its input.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### addCards
+    This method recieves a hand and maps the card ID to a number value. This value is then sorted and passed through the `reduce` method. This method is called in a useEffect to set `playerScore` or `dealerScore`.
 
-### `npm test`
+### victoryBanner
+    This method handles the conditional HTML that displays the outcome of the hand. It is displayed once `gameStarted` is false.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## CardCounter
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  This component returns the rendered images of the player and dealer hand by retrieving the card .png from the API. Upon first deal, the dealer's hand is shown with one card face down. Then upon player stand the dealer's hand is fully revealed. The player and dealer hand card values are passed into this component as props.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ChipCounter
 
-### `npm run eject`
+ This component handles the player's chip stack and the pot for the Blackjack game. The player's chip stack is returned in this component.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+ ### winnerReducer 
+ 
+ sets the `winner` state to track who won the hand.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ ### victoryCheck 
+ 
+ dispatches the new state for the `winnerReducer` based on who wins a hand. This method is called by a useEffect watching for a change in `trueEnd`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+ ### payout
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+ Looks at the `winner` state and adjusts `chips` appropriately. It also resets the `pot` for a new hand. It is triggered by a useEffect watching for a change in `winner`
 
-## Learn More
+ ### placeBet
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+ Allows the player to push chips from `chips` into `pot` before a hand is dealt. Both `chips` and `pot` are states set within `placeBet`. This method is used as the `onClick` for the poker chips displayed in the player's chip stack.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

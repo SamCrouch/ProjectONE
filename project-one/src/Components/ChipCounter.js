@@ -48,19 +48,13 @@ function ChipCounter(props) {
   }
 
   function payout() {
-    if (props.player > 21) {
-      setPot(0)
-    } else if ((props.player > props.dealer && props.player <= 21) || props.dealer > 21) {
-      if (props.trueEnd) {
+    if (props.trueEnd) {
+      if (winner.winner === `player`) {
         setChips(chips + (2 * pot))
         setPot(0)
-      }
-    } else if ((props.dealer > props.player && props.dealer <= 21)) {
-      if (props.trueEnd) {
+      } else if (winner.winner === `dealer`) {
         setPot(0)
-      }
-    } else if (props.dealer === props.player && props.player <= 21 && props.player !== 0) {
-      if (props.trueEnd) {
+      } else if (winner.winner === `tie`) {
         setChips(chips + pot)
         setPot(0)
       }
@@ -69,7 +63,6 @@ function ChipCounter(props) {
 
   function placeBet(bet) {
     if (chips - bet >= 0 && props.trueEnd) {
-      console.log(`you bet ${bet} chips`)
       setChips(chips - bet);
       setPot(pot + bet);
     }
@@ -81,9 +74,30 @@ function ChipCounter(props) {
       <div onClick={() => { placeBet(25) }} className="holder h2">25</div>
       <div onClick={() => { placeBet(50) }} className="holder h3">50</div>
       <div className="my-chip"></div>
-      <div>Chip Total: {chips}</div>
+      <div>Chip Total: {chips} Your Bet: {pot}</div>
     </div>
   )
 }
 
 export default ChipCounter;
+
+
+// function payout() {
+//   if (props.player > 21) {
+//     setPot(0)
+//   } else if ((props.player > props.dealer && props.player <= 21) || props.dealer > 21) {
+//     if (props.trueEnd) {
+//       setChips(chips + (2 * pot))
+//       setPot(0)
+//     }
+//   } else if ((props.dealer > props.player && props.dealer <= 21)) {
+//     if (props.trueEnd) {
+//       setPot(0)
+//     }
+//   } else if (props.dealer === props.player && props.player <= 21 && props.player !== 0) {
+//     if (props.trueEnd) {
+//       setChips(chips + pot)
+//       setPot(0)
+//     }
+//   }
+// }

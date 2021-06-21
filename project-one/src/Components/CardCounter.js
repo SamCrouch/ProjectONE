@@ -1,12 +1,7 @@
-import {useState, useContext} from 'react'
-import DeckContext from '../deckContext'
 
 function CardCounter(props) {
-  const {cardValues} = useContext(DeckContext)
-  const count = props.hand.map((card) => cardValues[card[0]])
 
   return(
-    // <div>{output < 22 ? output : `you lose`}</div>
     <div className="hand">
      {props.isDealer && props.isStarted ? 
      <div className="hand">

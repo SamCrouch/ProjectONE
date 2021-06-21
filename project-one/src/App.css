@@ -153,14 +153,26 @@ button {
   position: relative;
 }
 
-.victory-banner p {
+.victory-banner .vic-message {
   font-family: 'Rancho';
   font-size: 100px;
   font-weight: 900;
   grid-column: 2;
   padding: 1vh, 1vw;
   background-color: white;
+  margin: 0;
 }
+
+.victory-banner .bet-reminder {
+  font-size: 50px;
+  font-family: 'Rancho';
+  font-weight: 900;
+  grid-column: 2;
+  padding: 1vh, 1vw;
+  background-color: white;
+  margin: 0;
+}
+
 
 @keyframes appear {
   from {
