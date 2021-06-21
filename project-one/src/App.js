@@ -1,6 +1,6 @@
 import './App.css';
-import {useEffect, useState} from 'react'
-import {BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import Blackjack from './Components/Blackjack'
 import Nav from './Components/Nav';
 import DeckContext from './deckContext'
@@ -30,27 +30,27 @@ function App() {
 
   useEffect(() => {
     async function getDeck() {
-    const response = await fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
-    const json = await response.json()
-    await setDeckId(json.deck_id)
-  }
-  getDeck();
-}, [])
-  
+      const response = await fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+      const json = await response.json()
+      await setDeckId(json.deck_id)
+    }
+    getDeck();
+  }, [])
+
 
   return (
     <DeckContext.Provider value={{
       deckId,
       cardValues
     }}>
-    <div>
-      <Router>
-      <Nav />
-        <Switch>
-          <Route path="/blackjack" component={Blackjack}/>
-        </Switch>
-      </Router>
-    </div>
+      <div>
+        <Router>
+          <Nav />
+          <Switch>
+            <Route path="/blackjack" component={Blackjack} />
+          </Switch>
+        </Router>
+      </div>
     </DeckContext.Provider>
   );
 }
